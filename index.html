@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="K线离线">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>K线离线助手</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ 主页面：数据管理 ============ -->
+<div id="home-view" class="view">
+  <header class="app-header">
+    <h1>📈 K线离线助手</h1>
+    <div id="net-status" class="net-status online"><span class="dot"></span><span id="net-text">在线</span></div>
+  </header>
+
+  <section class="card">
+    <h2>下载新数据</h2>
+    <div class="form-row">
+      <label>交易对</label>
+      <div class="symbol-input-wrap">
+        <input id="symbol-input" type="text" value="BTCUSDT" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="例如 BTCUSDT">
+      </div>
+      <div class="chip-row" id="symbol-chips">
+        <button class="chip" data-symbol="BTCUSDT">BTC</button>
+        <button class="chip" data-symbol="ETHUSDT">ETH</button>
+        <button class="chip" data-symbol="SOLUSDT">SOL</button>
+        <button class="chip" data-symbol="BNBUSDT">BNB</button>
+        <button class="chip" data-symbol="XRPUSDT">XRP</button>
+        <button class="chip" data-symbol="DOGEUSDT">DOGE</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>K线周期</label>
+      <div class="chip-row" id="interval-chips">
+        <button class="chip" data-interval="5m">5分</button>
+        <button class="chip" data-interval="15m">15分</button>
+        <button class="chip selected" data-interval="1h">1小时</button>
+        <button class="chip" data-interval="4h">4小时</button>
+        <button class="chip selected" data-interval="1d">日线</button>
+        <button class="chip" data-interval="1w">周线</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>历史范围</label>
+      <div class="chip-row" id="range-chips">
+        <button class="chip" data-days="30">1个月</button>
+        <button class="chip" data-days="90">3个月</button>
+        <button class="chip selected" data-days="365">1年</button>
+        <button class="chip" data-days="1095">3年</button>
+        <button class="chip" data-days="3650">10年</button>
+      </div>
+    </div>
+    <button id="download-btn" class="btn-primary">⬇ 下载并离线保存</button>
+    <div id="download-progress" class="progress hidden">
+      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+      <div id="progress-text" class="progress-text"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>已离线的数据</h2>
+      <button id="update-all-btn" class="btn-small">🔄 全部更新</button>
+    </div>
+    <div id="dataset-list" class="dataset-list">
+      <p class="empty-hint">还没有离线数据。联网时先下载，飞机上就能随时查看。</p>
+    </div>
+    <div id="storage-info" class="storage-info"></div>
+  </section>
+
+  <p class="tip">💡 提示：联网时打开本应用会自动把已有数据更新到最新；用浏览器菜单「添加到主屏幕」可当作独立 App 使用，完全离线可用。</p>
+</div>
+
+<!-- ============ 图表页面 ============ -->
+<div id="chart-view" class="view hidden">
+  <header class="chart-header">
+    <button id="back-btn" class="btn-back">‹ 返回</button>
+    <div class="chart-title">
+      <span id="chart-symbol">BTCUSDT</span>
+      <span id="chart-range" class="chart-range"></span>
+    </div>
+    <div class="chip-row compact" id="chart-interval-chips"></div>
+  </header>
+  <div id="ohlc-info" class="ohlc-info"></div>
+  <div class="chart-wrap">
+    <canvas id="chart-canvas"></canvas>
+  </div>
+  <div class="chart-hint">单指拖动平移 · 双指缩放 · 点按查看某根K线</div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="chart.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
