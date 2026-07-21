@@ -1,7 +1,8 @@
 /**
  * 零依赖 Canvas K线图表
  * 蜡烛图 + 成交量 + MA(7/25/99) + 十字光标，支持触摸拖动/双指缩放/滚轮缩放
- * 数据格式: [[time(ms), open, high, low, close, volume], ...] 按时间升序
+ * OHLC 数据: [[time(ms), open, high, low, close, volume], ...] 按时间升序
+ * 折线数据(type='line'，用于收益率/宏观序列): [[time(ms), value], ...]
  */
 class KlineChart {
   constructor(canvas, opts = {}) {
@@ -27,9 +28,10 @@ class KlineChart {
     this._resizeObserver.observe(canvas.parentElement || canvas);
   }
 
-  setData(data, interval) {
+  setData(data, interval, type = 'ohlc') {
     this.data = data;
     this.interval = interval;
+    this.type = type;
     this.cross = null;
     this._computeMA();
     const count = Math.min(120, Math.max(30, data.length));
@@ -39,8 +41,9 @@ class KlineChart {
 
   _computeMA() {
     const d = this.data;
-    const periods = [7, 25, 99];
     this.ma = { 7: [], 25: [], 99: [] };
+    if (this.type === 'line') return; // 折线序列不画均线
+    const periods = [7, 25, 99];
     const sums = { 7: 0, 25: 0, 99: 0 };
     for (let i = 0; i < d.length; i++) {
       for (const p of periods) {
@@ -50,6 +53,8 @@ class KlineChart {
       }
     }
   }
+
+  _closeOf(c) { return this.type === 'line' ? c[1] : c[4]; }
 
   resize() {
     const rect = this.canvas.getBoundingClientRect();
@@ -65,7 +70,7 @@ class KlineChart {
 
   // ---------- 坐标换算 ----------
   _chartW() { return this.w - this.padRight; }
-  _priceH() { return (this.h - this.padBottom) * 0.72; }
+  _priceH() { return (this.h - this.padBottom) * (this.type === 'line' ? 0.96 : 0.72); }
   _volTop() { return (this.h - this.padBottom) * 0.75; }
   _volH() { return (this.h - this.padBottom) * 0.25; }
 
@@ -94,6 +99,11 @@ class KlineChart {
     let min = Infinity, max = -Infinity, volMax = 0;
     for (let i = first; i <= last; i++) {
       const c = this.data[i];
+      if (this.type === 'line') {
+        if (c[1] < min) min = c[1];
+        if (c[1] > max) max = c[1];
+        continue;
+      }
       if (c[3] < min) min = c[3];
       if (c[2] > max) max = c[2];
       if (c[5] > volMax) volMax = c[5];
@@ -112,8 +122,12 @@ class KlineChart {
     this._yOfPrice = yOfPrice;
 
     this._drawGrid(min, max, yOfPrice, first, last);
-    this._drawCandles(first, last, yOfPrice, volMax);
-    this._drawMAs(first, last, yOfPrice);
+    if (this.type === 'line') {
+      this._drawLine(first, last, yOfPrice);
+    } else {
+      this._drawCandles(first, last, yOfPrice, volMax);
+      this._drawMAs(first, last, yOfPrice);
+    }
     this._drawLastPrice(yOfPrice);
     if (this.cross != null) this._drawCrosshair(yOfPrice);
   }
@@ -199,6 +213,39 @@ class KlineChart {
     }
   }
 
+  _drawLine(first, last, yOfPrice) {
+    const { ctx } = this;
+    const color = this.colors.ma99;
+    // 面积填充
+    const bottom = this.h - this.padBottom;
+    ctx.beginPath();
+    for (let i = first; i <= last; i++) {
+      const x = this._xOfIndex(i), y = yOfPrice(this.data[i][1]);
+      if (i === first) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    const grad = ctx.createLinearGradient(0, 0, 0, bottom);
+    grad.addColorStop(0, 'rgba(47, 129, 247, 0.25)');
+    grad.addColorStop(1, 'rgba(47, 129, 247, 0)');
+    ctx.save();
+    ctx.lineTo(this._xOfIndex(last), bottom);
+    ctx.lineTo(this._xOfIndex(first), bottom);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.restore();
+    // 折线本体
+    ctx.beginPath();
+    for (let i = first; i <= last; i++) {
+      const x = this._xOfIndex(i), y = yOfPrice(this.data[i][1]);
+      if (i === first) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.6;
+    ctx.stroke();
+  }
+
   _drawMAs(first, last, yOfPrice) {
     const { ctx } = this;
     const cfg = [[7, this.colors.ma7], [25, this.colors.ma25], [99, this.colors.ma99]];
@@ -221,11 +268,12 @@ class KlineChart {
   _drawLastPrice(yOfPrice) {
     const { ctx } = this;
     const lastCandle = this.data[this.data.length - 1];
-    const price = lastCandle[4];
+    const price = this._closeOf(lastCandle);
     if (price < this._priceMin || price > this._priceMax) return;
     const y = yOfPrice(price);
     const cw = this._chartW();
-    const up = price >= lastCandle[1];
+    const prev = this.data.length > 1 ? this._closeOf(this.data[this.data.length - 2]) : price;
+    const up = this.type === 'line' ? price >= prev : price >= lastCandle[1];
     ctx.strokeStyle = up ? this.colors.up : this.colors.down;
     ctx.setLineDash([4, 4]);
     ctx.beginPath();
@@ -249,7 +297,7 @@ class KlineChart {
     if (i < 0 || i >= this.data.length) return;
     const c = this.data[i];
     const x = this._xOfIndex(i);
-    const y = yOfPrice(c[4]);
+    const y = yOfPrice(this._closeOf(c));
     const cw = this._chartW();
 
     ctx.strokeStyle = this.colors.cross;
@@ -280,7 +328,7 @@ class KlineChart {
     ctx.fillRect(cw, y - 8, this.padRight, 16);
     ctx.fillStyle = '#e6edf3';
     ctx.textAlign = 'left';
-    ctx.fillText(fmtPrice(c[4]), cw + 4, y);
+    ctx.fillText(fmtPrice(this._closeOf(c)), cw + 4, y);
   }
 
   // ---------- 交互 ----------
@@ -407,6 +455,8 @@ function niceStep(rough) {
 }
 
 function fmtPrice(p) {
+  if (p < 0) return '-' + fmtPrice(-p);
+  if (p === 0) return '0';
   if (p >= 10000) return p.toLocaleString('en-US', { maximumFractionDigits: 0 });
   if (p >= 100) return p.toFixed(1);
   if (p >= 1) return p.toFixed(2);

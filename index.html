@@ -23,7 +23,23 @@
   </header>
 
   <section class="card">
-    <h2>下载新数据</h2>
+    <div class="card-head">
+      <h2>数据中心（商品 / 股票 / 国债 / 宏观）</h2>
+      <button id="dc-download-all-btn" class="btn-small">⬇ 全部下载</button>
+    </div>
+    <p class="card-desc">数据由云端每日自动抓取（雅虎财经 / 东方财富 / 新浪财经 / FRED），点击条目即可离线保存到手机。</p>
+    <div id="dc-list" class="dc-list"><p class="empty-hint">正在加载数据目录…</p></div>
+  </section>
+
+  <section class="card">
+    <h2>导入 Wind / iFind 导出的 CSV</h2>
+    <p class="card-desc">Wind、iFind 终端数据无法直连，可在电脑上导出 CSV（日期+开高低收[+量]，或 日期+数值），在此导入后同样离线保存。</p>
+    <button id="import-csv-btn" class="btn-secondary">📄 选择 CSV 文件导入</button>
+    <input id="csv-file-input" type="file" accept=".csv,.txt" multiple hidden>
+  </section>
+
+  <section class="card">
+    <h2>加密货币（直连下载）</h2>
     <div class="form-row">
       <label>交易对</label>
       <div class="symbol-input-wrap">
@@ -77,7 +93,7 @@
     <div id="storage-info" class="storage-info"></div>
   </section>
 
-  <p class="tip">💡 提示：联网时打开本应用会自动把已有数据更新到最新；用浏览器菜单「添加到主屏幕」可当作独立 App 使用，完全离线可用。</p>
+  <p class="tip">💡 提示：数据中心的数据由云端每日自动抓取（北京时间 5:30 / 17:30）；联网时打开本应用会自动把已下载数据更新到最新，上飞机前打开一次即可。用浏览器菜单「添加到主屏幕」可当作独立 App 使用，完全离线可用。</p>
 </div>
 
 <!-- ============ 图表页面 ============ -->

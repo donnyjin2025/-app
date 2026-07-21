@@ -108,6 +108,64 @@ html, body {
   cursor: pointer;
 }
 
+.card-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; margin-bottom: 12px; }
+
+.btn-secondary {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 14px;
+  padding: 11px;
+  cursor: pointer;
+}
+
+/* 数据中心 */
+.dc-list { display: flex; flex-direction: column; gap: 4px; }
+.dc-cat {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 600;
+  margin: 10px 0 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dc-cat:first-child { margin-top: 0; }
+.dc-cat .btn-mini {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-dim);
+  font-size: 11px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.dc-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  gap: 8px;
+}
+.dc-item .dc-name { font-size: 13px; }
+.dc-item .dc-meta { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.dc-item .dc-btn {
+  background: rgba(47, 129, 247, 0.12);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  color: var(--accent);
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dc-item .dc-btn.saved { background: none; border-color: var(--border); color: var(--text-dim); }
+
 .progress { margin-top: 12px; }
 .progress-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
 .progress-fill { height: 100%; width: 0; background: var(--accent); transition: width 0.2s; }

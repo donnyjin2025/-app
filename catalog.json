@@ -1,0 +1,433 @@
+{
+  "_说明": "云端定时抓取的数据清单。src: yahoo=雅虎财经 / tencent=腾讯行情A股/指数日K(前复权) / sina_futures=新浪国内期货主力连续 / fred=美联储FRED / em_yield=东财中美国债收益率 / em_macro=东财中国宏观。想加自选股票/商品/指标，照格式添加一行即可。",
+  "series": [
+    {
+      "id": "gold",
+      "name": "COMEX黄金",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "GC=F",
+      "range": "10y"
+    },
+    {
+      "id": "silver",
+      "name": "COMEX白银",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "SI=F",
+      "range": "10y"
+    },
+    {
+      "id": "copper",
+      "name": "COMEX铜",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "HG=F",
+      "range": "10y"
+    },
+    {
+      "id": "wti",
+      "name": "WTI原油",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "CL=F",
+      "range": "10y"
+    },
+    {
+      "id": "brent",
+      "name": "布伦特原油",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "BZ=F",
+      "range": "10y"
+    },
+    {
+      "id": "natgas",
+      "name": "NYMEX天然气",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "NG=F",
+      "range": "10y"
+    },
+    {
+      "id": "soybean",
+      "name": "CBOT大豆",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "ZS=F",
+      "range": "10y"
+    },
+    {
+      "id": "corn",
+      "name": "CBOT玉米",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "ZC=F",
+      "range": "10y"
+    },
+    {
+      "id": "wheat",
+      "name": "CBOT小麦",
+      "category": "国际商品",
+      "src": "yahoo",
+      "symbol": "ZW=F",
+      "range": "10y"
+    },
+    {
+      "id": "rb",
+      "name": "螺纹钢主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "RB0"
+    },
+    {
+      "id": "hc",
+      "name": "热卷主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "HC0"
+    },
+    {
+      "id": "i",
+      "name": "铁矿石主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "I0"
+    },
+    {
+      "id": "cu",
+      "name": "沪铜主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "CU0"
+    },
+    {
+      "id": "al",
+      "name": "沪铝主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "AL0"
+    },
+    {
+      "id": "au",
+      "name": "沪金主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "AU0"
+    },
+    {
+      "id": "ag",
+      "name": "沪银主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "AG0"
+    },
+    {
+      "id": "sc",
+      "name": "原油主力(INE)",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "SC0"
+    },
+    {
+      "id": "ta",
+      "name": "PTA主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "TA0"
+    },
+    {
+      "id": "ma",
+      "name": "甲醇主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "MA0"
+    },
+    {
+      "id": "m",
+      "name": "豆粕主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "M0"
+    },
+    {
+      "id": "sr",
+      "name": "白糖主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "SR0"
+    },
+    {
+      "id": "cf",
+      "name": "棉花主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "CF0"
+    },
+    {
+      "id": "fg",
+      "name": "玻璃主力",
+      "category": "国内期货",
+      "src": "sina_futures",
+      "symbol": "FG0"
+    },
+    {
+      "id": "sh",
+      "name": "上证指数",
+      "category": "股票指数",
+      "src": "tencent",
+      "symbol": "sh000001",
+      "start": "1990"
+    },
+    {
+      "id": "hs300",
+      "name": "沪深300",
+      "category": "股票指数",
+      "src": "tencent",
+      "symbol": "sh000300",
+      "start": "2005"
+    },
+    {
+      "id": "zz500",
+      "name": "中证500",
+      "category": "股票指数",
+      "src": "tencent",
+      "symbol": "sh000905",
+      "start": "2005"
+    },
+    {
+      "id": "szcz",
+      "name": "深证成指",
+      "category": "股票指数",
+      "src": "tencent",
+      "symbol": "sz399001",
+      "start": "1994"
+    },
+    {
+      "id": "cyb",
+      "name": "创业板指",
+      "category": "股票指数",
+      "src": "tencent",
+      "symbol": "sz399006",
+      "start": "2010"
+    },
+    {
+      "id": "hsi",
+      "name": "恒生指数",
+      "category": "股票指数",
+      "src": "yahoo",
+      "symbol": "^HSI",
+      "range": "10y"
+    },
+    {
+      "id": "spx",
+      "name": "标普500",
+      "category": "股票指数",
+      "src": "yahoo",
+      "symbol": "^GSPC",
+      "range": "10y"
+    },
+    {
+      "id": "ndx",
+      "name": "纳斯达克",
+      "category": "股票指数",
+      "src": "yahoo",
+      "symbol": "^IXIC",
+      "range": "10y"
+    },
+    {
+      "id": "dxy",
+      "name": "美元指数",
+      "category": "股票指数",
+      "src": "yahoo",
+      "symbol": "DX-Y.NYB",
+      "range": "10y"
+    },
+    {
+      "id": "moutai",
+      "name": "贵州茅台",
+      "category": "个股",
+      "src": "tencent",
+      "symbol": "sh600519",
+      "start": "2001"
+    },
+    {
+      "id": "catl",
+      "name": "宁德时代",
+      "category": "个股",
+      "src": "tencent",
+      "symbol": "sz300750",
+      "start": "2018"
+    },
+    {
+      "id": "wuliangye",
+      "name": "五粮液",
+      "category": "个股",
+      "src": "tencent",
+      "symbol": "sz000858",
+      "start": "1998"
+    },
+    {
+      "id": "aapl",
+      "name": "苹果",
+      "category": "个股",
+      "src": "yahoo",
+      "symbol": "AAPL",
+      "range": "10y"
+    },
+    {
+      "id": "nvda",
+      "name": "英伟达",
+      "category": "个股",
+      "src": "yahoo",
+      "symbol": "NVDA",
+      "range": "10y"
+    },
+    {
+      "id": "tsla",
+      "name": "特斯拉",
+      "category": "个股",
+      "src": "yahoo",
+      "symbol": "TSLA",
+      "range": "10y"
+    },
+    {
+      "id": "cn2y",
+      "name": "中国国债收益率2年",
+      "category": "国债收益率",
+      "src": "em_yield",
+      "field": "EMM00588704",
+      "unit": "%"
+    },
+    {
+      "id": "cn5y",
+      "name": "中国国债收益率5年",
+      "category": "国债收益率",
+      "src": "em_yield",
+      "field": "EMM00166462",
+      "unit": "%"
+    },
+    {
+      "id": "cn10y",
+      "name": "中国国债收益率10年",
+      "category": "国债收益率",
+      "src": "em_yield",
+      "field": "EMM00166466",
+      "unit": "%"
+    },
+    {
+      "id": "cn30y",
+      "name": "中国国债收益率30年",
+      "category": "国债收益率",
+      "src": "em_yield",
+      "field": "EMM00166469",
+      "unit": "%"
+    },
+    {
+      "id": "us2y",
+      "name": "美国国债收益率2年",
+      "category": "国债收益率",
+      "src": "fred",
+      "series": "DGS2",
+      "unit": "%"
+    },
+    {
+      "id": "us10y",
+      "name": "美国国债收益率10年",
+      "category": "国债收益率",
+      "src": "fred",
+      "series": "DGS10",
+      "unit": "%"
+    },
+    {
+      "id": "us30y",
+      "name": "美国国债收益率30年",
+      "category": "国债收益率",
+      "src": "fred",
+      "series": "DGS30",
+      "unit": "%"
+    },
+    {
+      "id": "us10_2",
+      "name": "美债10年-2年利差",
+      "category": "国债收益率",
+      "src": "fred",
+      "series": "T10Y2Y",
+      "unit": "%"
+    },
+    {
+      "id": "us_cpi",
+      "name": "美国CPI(同比)",
+      "category": "宏观数据",
+      "src": "fred",
+      "series": "CPIAUCSL",
+      "transform": "yoy",
+      "unit": "%"
+    },
+    {
+      "id": "us_unrate",
+      "name": "美国失业率",
+      "category": "宏观数据",
+      "src": "fred",
+      "series": "UNRATE",
+      "unit": "%"
+    },
+    {
+      "id": "us_fedfunds",
+      "name": "美国联邦基金利率",
+      "category": "宏观数据",
+      "src": "fred",
+      "series": "FEDFUNDS",
+      "unit": "%"
+    },
+    {
+      "id": "us_payems",
+      "name": "美国非农就业(千人)",
+      "category": "宏观数据",
+      "src": "fred",
+      "series": "PAYEMS"
+    },
+    {
+      "id": "us_m2",
+      "name": "美国M2(十亿美元)",
+      "category": "宏观数据",
+      "src": "fred",
+      "series": "M2SL"
+    },
+    {
+      "id": "cn_cpi",
+      "name": "中国CPI同比",
+      "category": "宏观数据",
+      "src": "em_macro",
+      "report": "RPT_ECONOMY_CPI",
+      "field": "NATIONAL_SAME",
+      "unit": "%"
+    },
+    {
+      "id": "cn_ppi",
+      "name": "中国PPI同比",
+      "category": "宏观数据",
+      "src": "em_macro",
+      "report": "RPT_ECONOMY_PPI",
+      "field": "BASE_SAME",
+      "unit": "%"
+    },
+    {
+      "id": "cn_pmi",
+      "name": "中国制造业PMI",
+      "category": "宏观数据",
+      "src": "em_macro",
+      "report": "RPT_ECONOMY_PMI",
+      "field": "MAKE_INDEX"
+    },
+    {
+      "id": "cn_m2",
+      "name": "中国M2同比",
+      "category": "宏观数据",
+      "src": "em_macro",
+      "report": "RPT_ECONOMY_CURRENCY_SUPPLY",
+      "field": "BASIC_CURRENCY_SAME",
+      "unit": "%"
+    }
+  ]
+}

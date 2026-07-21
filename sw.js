@@ -25,8 +25,9 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  // API 请求不走缓存（行情数据由 IndexedDB 负责离线）
+  // API 与 data/ 数据文件不走壳缓存（行情数据由 IndexedDB 负责离线）
   if (url.origin !== self.location.origin) return;
+  if (url.pathname.includes('/data/')) return;
 
   // 应用文件：缓存优先，后台刷新
   e.respondWith(
