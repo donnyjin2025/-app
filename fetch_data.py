@@ -22,8 +22,8 @@ DATA_DIR = ROOT / "data"
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 
 
-def http_get(url, referer=None, retries=3):
-    headers = {"User-Agent": UA}
+def http_get(url, referer=None, retries=3, ua=UA):
+    headers = {"User-Agent": ua}
     if referer:
         headers["Referer"] = referer
     last = None
@@ -100,8 +100,9 @@ def fetch_sina_futures(item):
 
 
 def fetch_fred(item):
+    # FRED 的 CDN 会拦截「浏览器 UA + 非浏览器指纹」的请求，用 curl UA 正常
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={item['series']}"
-    text = http_get(url)
+    text = http_get(url, ua="curl/8.5.0")
     points = []
     for line in text.splitlines()[1:]:
         parts = line.split(",")
@@ -206,9 +207,21 @@ def main():
             print(f"❌ {item['id']:12s} {item['name']:12s} {e}")
         time.sleep(0.4)  # 对数据源友好
 
-    (DATA_DIR / "index.json").write_text(json.dumps({
+    # 与既有清单合并：本次没抓（--only 之外）或抓失败但数据文件仍在的条目保留，
+    # 避免个别源临时故障导致条目从清单里消失
+    merged = {}
+    idx_path = DATA_DIR / "index.json"
+    if idx_path.exists():
+        for old in json.loads(idx_path.read_text(encoding="utf-8")).get("items", []):
+            if (DATA_DIR / old["file"]).exists():
+                merged[old["id"]] = old
+    for it in index_items:
+        merged[it["id"]] = it
+    order = {s["id"]: n for n, s in enumerate(catalog["series"])}
+    items = sorted(merged.values(), key=lambda x: order.get(x["id"], 999))
+    idx_path.write_text(json.dumps({
         "generatedAt": int(time.time() * 1000),
-        "items": index_items,
+        "items": items,
     }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"\n完成：{len(index_items)} 成功，{len(failures)} 失败")
     for f in failures:

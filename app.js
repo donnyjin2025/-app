@@ -508,7 +508,7 @@ function showOHLC(info) {
     el.innerHTML =
       `${fmtTimeFull(c[0], rec.interval)} ${info ? '' : '(最新)'} · ` +
       `${rec.name}：<b class="${cls}">${fmtPrice(c[1])}${rec.unit || ''}</b> ` +
-      `<span class="${cls}">较前值 ${diff >= 0 ? '+' : ''}${fmtPrice(Math.abs(diff) < 1 ? +diff.toFixed(4) : +diff.toFixed(2))}</span>`;
+      `<span class="${cls}">较前值 ${diff >= 0 ? '+' : ''}${parseFloat(diff.toFixed(Math.abs(diff) < 1 ? 4 : 2))}</span>`;
     return;
   }
 
